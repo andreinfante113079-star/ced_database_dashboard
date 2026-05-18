@@ -8,6 +8,8 @@ on:
         description: 'Why are you rebuilding? (optional note)'
         required: false
         default: 'Manual refresh'
+  schedule:
+    - cron: '0 22 * * *'
 
 jobs:
   rebuild:
