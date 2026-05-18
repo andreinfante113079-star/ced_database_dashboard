@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Primary Structures — Dashboard</title>
+<title>CED Ratio Database — Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -44,6 +44,34 @@
   .greeting p { color: var(--text-muted); font-size: 15px; }
   .last-updated { font-size: 12px; color: var(--text-soft); }
   .last-updated b { color: var(--text-muted); font-weight: 600; }
+ 
+  .filter-banner {
+    display: none;
+    background: linear-gradient(90deg, rgba(196,122,54,.12), rgba(24,52,91,.08));
+    border: 1px solid rgba(196,122,54,.25);
+    border-radius: 10px;
+    padding: 12px 18px;
+    margin-bottom: 20px;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+  }
+  .filter-banner.show { display: flex; }
+  .filter-banner .label { color: var(--text-muted); font-weight: 600; }
+  .filter-banner .chip {
+    background: var(--navy); color: #fff;
+    padding: 4px 12px; border-radius: 999px;
+    font-size: 12px; font-weight: 600;
+  }
+  .filter-banner .clear-btn {
+    margin-left: auto;
+    background: transparent; border: 1px solid var(--border);
+    color: var(--text-muted); padding: 5px 12px;
+    border-radius: 6px; cursor: pointer; font-size: 12px;
+    font-family: inherit; font-weight: 500;
+  }
+  .filter-banner .clear-btn:hover { background: var(--card); color: var(--text); }
+ 
   .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow-sm); transition: box-shadow .2s ease; }
   .card:hover { box-shadow: var(--shadow-md); }
   .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
@@ -86,11 +114,15 @@
   .btn-reset:hover { background: var(--bg); color: var(--text); }
   .search-results { margin-top: 18px; padding-top: 18px; border-top: 1px dashed var(--border); font-size: 13px; color: var(--text-muted); }
   .result-list { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; max-height: 380px; overflow-y: auto; padding-right: 4px; }
+ 
   .sidebar { background: var(--card); border-left: 1px solid var(--border); display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
-  .sb-brand { padding: 22px 24px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); }
-  .sb-brand .logo { width: 36px; height: 36px; background: var(--card); border: 1.5px solid var(--text); border-radius: 8px; display: grid; place-items: center; transform: rotate(45deg); }
-  .sb-brand .logo span { transform: rotate(-45deg); font-weight: 800; font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text); font-size: 15px; }
-  .sb-brand h4 { font-size: 15px; font-weight: 700; }
+  .sb-brand { padding: 18px 24px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); }
+  .sb-logo { width: 44px; height: 44px; flex-shrink: 0; display: grid; place-items: center; }
+  .sb-logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .sb-logo-fallback { width: 36px; height: 36px; background: var(--card); border: 1.5px solid var(--text); border-radius: 8px; display: grid; place-items: center; transform: rotate(45deg); }
+  .sb-logo-fallback span { transform: rotate(-45deg); font-weight: 800; font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text); font-size: 15px; }
+  .sb-brand h4 { font-size: 14px; font-weight: 700; line-height: 1.25; }
+  .sb-brand h4 small { display: block; font-size: 10px; font-weight: 500; color: var(--text-soft); letter-spacing: 0.05em; margin-top: 2px; }
   .sb-nav { flex: 1; padding: 16px 14px; display: flex; flex-direction: column; gap: 2px; }
   .nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 8px; color: var(--text-muted); font-size: 14px; font-weight: 500; cursor: pointer; transition: all .15s ease; border: none; background: none; width: 100%; text-align: left; font-family: inherit; }
   .nav-item:hover { background: var(--bg); color: var(--text); }
@@ -98,14 +130,20 @@
   .nav-item svg { width: 18px; height: 18px; flex-shrink: 0; }
   .nav-item .chev { margin-left: auto; transition: transform .2s ease; }
   .nav-item.open .chev { transform: rotate(180deg); }
-  .nav-children { display: none; padding-left: 24px; flex-direction: column; gap: 2px; margin-top: 2px; }
+  .nav-children { display: none; padding-left: 24px; flex-direction: column; gap: 2px; margin-top: 2px; max-height: 320px; overflow-y: auto; }
   .nav-group.open .nav-children { display: flex; }
-  .nav-child { padding: 8px 12px; color: var(--text-muted); font-size: 13px; border-radius: 6px; cursor: pointer; transition: all .15s ease; }
+  .nav-child { padding: 7px 12px; color: var(--text-muted); font-size: 12.5px; border-radius: 6px; cursor: pointer; transition: all .15s ease; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
   .nav-child:hover { background: var(--bg); color: var(--text); }
+  .nav-child.active { background: var(--navy); color: #fff; font-weight: 600; }
+  .nav-child .count { font-size: 10px; background: rgba(0,0,0,.08); padding: 2px 7px; border-radius: 999px; color: var(--text-muted); }
+  .nav-child.active .count { background: rgba(255,255,255,.25); color: #fff; }
+  .nav-child-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+ 
   .sb-user { padding: 16px 18px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
   .sb-user .avatar { width: 36px; height: 36px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; display: grid; place-items: center; font-weight: 700; font-size: 12px; color: var(--text); }
   .sb-user .name { font-size: 13px; font-weight: 600; }
   .sb-user .role { font-size: 11px; color: var(--text-soft); }
+ 
   .modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,.55); display: none; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
   .modal-overlay.show { display: flex; }
   .modal { background: var(--card); border-radius: 14px; max-width: 720px; width: 100%; max-height: 88vh; overflow-y: auto; box-shadow: 0 25px 60px rgba(0,0,0,.3); }
@@ -123,6 +161,7 @@
   .ratio { background: var(--bg); border-radius: 8px; padding: 12px; }
   .ratio .v { font-family: 'Plus Jakarta Sans'; font-weight: 700; font-size: 17px; color: var(--text); }
   .ratio .k { font-size: 10px; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+ 
   .loading { padding: 60px 20px; text-align: center; color: var(--text-muted); }
   .loading-spinner { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--navy); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
   .error { padding: 30px; text-align: center; color: #b91c1c; background: #fef2f2; border: 1px solid #fecaca; border-radius: 10px; margin: 20px 0; }
@@ -138,7 +177,8 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 </style>
-</head><body>
+</head>
+<body>
 <div class="layout">
   <div class="main">
     <header class="topbar">
@@ -153,21 +193,27 @@
         </button>
       </div>
     </header>
-
+ 
     <div class="content">
       <div class="greeting">
         <div>
-          <h2>Dashboard</h2>
-          <p>Welcome back, Super Admin!</p>
+          <h2>CED RATIO DATABASE</h2>
+          <p>Welcome back, Ka-tribu!</p>
         </div>
         <div class="last-updated" id="lastUpdated"></div>
       </div>
-
+ 
+      <div id="filterBanner" class="filter-banner">
+        <span class="label">Filtered by:</span>
+        <span class="chip" id="filterChip"></span>
+        <button class="clear-btn" id="clearSidebarFilter">Clear filter</button>
+      </div>
+ 
       <div id="loadingState" class="loading">
         <div class="loading-spinner"></div>
         <div>Loading project data...</div>
       </div>
-
+ 
       <div id="dashboardContent" style="display:none;">
         <div class="grid-top">
           <div class="card">
@@ -181,13 +227,13 @@
             <div class="stat-label">Total Projects</div>
             <div class="stat-mini" id="topMetrics"></div>
           </div>
-
+ 
           <div class="card">
             <div class="card-header"><div class="card-title">Year</div></div>
             <div class="chart-wrap"><canvas id="yearChart"></canvas></div>
           </div>
         </div>
-
+ 
         <div class="grid-mid">
           <div class="card">
             <div class="card-header">
@@ -198,7 +244,7 @@
             </div>
             <div class="chart-wrap tall"><canvas id="categoryChart"></canvas></div>
           </div>
-
+ 
           <div class="card">
             <div class="card-header">
               <div>
@@ -209,7 +255,7 @@
             <div class="chart-wrap tall"><canvas id="occupancyChart"></canvas></div>
           </div>
         </div>
-
+ 
         <div class="card" style="margin-bottom:24px;">
           <div class="card-header">
             <div>
@@ -220,14 +266,14 @@
           <div class="activities" id="activities"></div>
           <button class="show-more" id="showMoreBtn" style="display:none;">Show all projects</button>
         </div>
-
+ 
         <div class="card search-card">
           <div class="search-header">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted)"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
             <h3>Search</h3>
           </div>
           <p class="desc">Filter projects by lookup table values, then open the projects list.</p>
-
+ 
           <div class="filter-grid">
             <div class="filter-field"><label>Type of Occupancy</label><select id="f-occupancy"></select></div>
             <div class="filter-field"><label>Building Category</label><select id="f-category"></select></div>
@@ -235,26 +281,28 @@
             <div class="filter-field"><label>Type of Foundation</label><select id="f-foundation"></select></div>
             <div class="filter-field"><label>Construction Approach</label><select id="f-approach"></select></div>
           </div>
-
+ 
           <button class="btn-search" id="searchBtn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
             Search projects
           </button>
           <button class="btn-reset" id="resetBtn">Reset filters</button>
-
+ 
           <div class="search-results" id="searchResults" style="display:none;"></div>
         </div>
       </div>
     </div>
   </div>
-
+ 
   <aside class="sidebar">
     <div class="sb-brand">
-      <div class="logo"><span>S</span></div>
-      <h4>Primary Structures</h4>
+      <div class="sb-logo">
+        <img src="logo.png" alt="Logo" onerror="this.outerHTML='&lt;div class=&quot;sb-logo-fallback&quot;&gt;&lt;span&gt;C&lt;/span&gt;&lt;/div&gt;'">
+      </div>
+      <h4>CED Ratio<br><small>Database</small></h4>
     </div>
     <nav class="sb-nav">
-      <button class="nav-item active">
+      <button class="nav-item active" onclick="clearSidebarFilter()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
         Dashboard
       </button>
@@ -269,13 +317,14 @@
           <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
         <div class="nav-children">
-          <div class="nav-child">Owners</div>
-          <div class="nav-child">Type of Occupancy</div>
-          <div class="nav-child">Building Category</div>
-          <div class="nav-child">Designer</div>
-          <div class="nav-child">Type of Foundation</div>
-          <div class="nav-child">Construction Approach</div>
+          <div class="nav-child" data-cat="owner">Owners <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></div>
+          <div class="nav-child" data-cat="occupancy">Type of Occupancy <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></div>
+          <div class="nav-child" data-cat="category">Building Category <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></div>
+          <div class="nav-child" data-cat="designer">Designer <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></div>
+          <div class="nav-child" data-cat="foundation">Type of Foundation <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></div>
+          <div class="nav-child" data-cat="approach">Construction Approach <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></div>
         </div>
+        <div id="subValues" class="nav-children" style="display:none; padding-left:24px;"></div>
       </div>
       <div class="nav-group" id="usersGroup">
         <button class="nav-item" onclick="toggleGroup('usersGroup', this)">
@@ -298,7 +347,7 @@
     </div>
   </aside>
 </div>
-
+ 
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <div class="modal-head">
@@ -310,28 +359,30 @@
     </div>
     <div class="modal-body" id="m-body"></div>
   </div>
-</div><script>
-  // CHANGE THIS to your GitHub Actions workflow URL after deploying
+</div>
+ 
+<script>
   const REBUILD_URL = 'https://github.com/andreinfante113079-star/ced_database_dashboard/actions/workflows/rebuild.yml';
 </script>
-
+ 
 <script>
+let ALL_PROJECTS = [];
 let PROJECTS = [];
 let UPDATED_AT = null;
-
+let sidebarFilter = null;
+ 
 document.getElementById('rebuildLink').href = REBUILD_URL;
-
 document.getElementById('themeBtn').addEventListener('click', () => {
   const cur = document.body.getAttribute('data-theme');
   document.body.setAttribute('data-theme', cur === 'dark' ? '' : 'dark');
   if (PROJECTS.length) rebuildCharts();
 });
-
+ 
 function toggleGroup(id, btn) {
   document.getElementById(id).classList.toggle('open');
   btn.classList.toggle('open');
 }
-
+ 
 function fmt(n, d) {
   if (d === undefined) d = 0;
   if (n === null || n === undefined || isNaN(n)) return '—';
@@ -343,33 +394,24 @@ function fmtCompact(n) {
   if (n >= 1e3) return (n/1e3).toFixed(1) + 'k';
   return Math.round(n).toString();
 }
-
+ 
 async function loadData() {
   try {
     const res = await fetch('projects.json?t=' + Date.now());
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
-    PROJECTS = data.projects || [];
+    ALL_PROJECTS = data.projects || [];
+    PROJECTS = ALL_PROJECTS.slice();
     UPDATED_AT = data.updatedAt;
     render();
   } catch (err) {
     document.getElementById('loadingState').innerHTML =
       '<div class="error"><strong>Could not load project data.</strong><br>' +
-      err.message +
-      '<br><br><small>Click the Rebuild button to generate it from the latest Excel file.</small></div>';
+      err.message + '<br><br><small>Click the Rebuild button to generate it from the latest Excel file.</small></div>';
   }
 }
-
-function render() {
-  document.getElementById('loadingState').style.display = 'none';
-  document.getElementById('dashboardContent').style.display = 'block';
-
-  if (UPDATED_AT) {
-    const d = new Date(UPDATED_AT);
-    document.getElementById('lastUpdated').innerHTML =
-      '<b>Last updated:</b> ' + d.toLocaleString();
-  }
-
+ 
+function updateTopStats() {
   document.getElementById('totalProjects').textContent = PROJECTS.length;
   const totalTFA = PROJECTS.reduce((s,p) => s + (p.tfa || 0), 0);
   const totalConcrete = PROJECTS.reduce((s,p) => s + (p.concrete || 0), 0);
@@ -378,19 +420,37 @@ function render() {
     '<div><strong>' + fmtCompact(totalTFA) + '</strong>Total TFA (sqm)</div>' +
     '<div><strong>' + fmtCompact(totalConcrete) + '</strong>Concrete (cu.m)</div>' +
     '<div><strong>' + fmtCompact(totalRebar) + '</strong>Rebar (kg)</div>';
-
+}
+ 
+function render() {
+  document.getElementById('loadingState').style.display = 'none';
+  document.getElementById('dashboardContent').style.display = 'block';
+ 
+  if (UPDATED_AT) {
+    const d = new Date(UPDATED_AT);
+    document.getElementById('lastUpdated').innerHTML = '<b>Last updated:</b> ' + d.toLocaleString();
+  }
+ 
+  updateTopStats();
   renderActivities();
-  buildCharts();
+  rebuildCharts();
   populateFilters();
 }
-
+ 
 let activitiesExpanded = false;
 function renderActivities() {
   const el = document.getElementById('activities');
   const more = document.getElementById('showMoreBtn');
   const list = activitiesExpanded ? PROJECTS : PROJECTS.slice(0, 5);
+ 
+  if (list.length === 0) {
+    el.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-soft); font-size:13px;">No projects match the current filter.</div>';
+    more.style.display = 'none';
+    return;
+  }
+ 
   el.innerHTML = list.map(p => {
-    const realIdx = PROJECTS.indexOf(p);
+    const realIdx = ALL_PROJECTS.indexOf(p);
     const meta = [p.location, p.year, p.category].filter(Boolean).join(' • ');
     return '<div class="row" data-idx="' + realIdx + '">' +
       '<div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9l-5 5"/><path d="m4 20 4-4"/><path d="m18 4 2 2"/><path d="m14 6 6 6-3 3-6-6 3-3"/></svg></div>' +
@@ -412,9 +472,9 @@ document.getElementById('showMoreBtn').addEventListener('click', () => {
   activitiesExpanded = !activitiesExpanded;
   renderActivities();
 });
-
+ 
 function openModal(idx) {
-  const p = PROJECTS[idx];
+  const p = ALL_PROJECTS[idx];
   if (!p) return;
   document.getElementById('m-name').textContent = p.name || '—';
   document.getElementById('m-sub').textContent = [p.owner, p.location].filter(Boolean).join(' · ');
@@ -429,37 +489,27 @@ function openModal(idx) {
   html += '<div class="ratios-block"><h4>Engineering Ratios</h4><div class="ratios-grid">' +
     '<div class="ratio"><div class="v">' + fmt(p.cumTfa, 3) + '</div><div class="k">cu.m / TFA</div></div>' +
     '<div class="ratio"><div class="v">' + fmt(p.kgTfa, 2) + '</div><div class="k">kg / TFA</div></div>' +
-    '<div class="ratio"><div class="v">' + fmt(p.sqmTfa, 3) + '</div><div class="k">sq.m / TFA</div></div>' +
-    '</div></div>';
+    '<div class="ratio"><div class="v">' + fmt(p.sqmTfa, 3) + '</div><div class="k">sq.m / TFA</div></div></div></div>';
   document.getElementById('m-body').innerHTML = html;
   document.getElementById('modal').classList.add('show');
 }
 function closeModal() { document.getElementById('modal').classList.remove('show'); }
 document.getElementById('modal').addEventListener('click', e => { if (e.target.id === 'modal') closeModal(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
+ 
 let yearChart, categoryChart, occupancyChart;
-
 function chartText() { return getComputedStyle(document.body).getPropertyValue('--text-muted').trim() || '#6b7280'; }
 function chartBorder() { return getComputedStyle(document.body).getPropertyValue('--border').trim() || '#e4e8ef'; }
-
-function countBy(arr, key) {
-  const out = {};
-  arr.forEach(p => { const k = p[key]; if (k) out[k] = (out[k]||0) + 1; });
-  return out;
-}
-
+function countBy(arr, key) { const out = {}; arr.forEach(p => { const k = p[key]; if (k) out[k] = (out[k]||0) + 1; }); return out; }
+ 
 function buildCharts() {
   const yearCounts = {};
-  PROJECTS.forEach(p => {
-    const y = p.yearStart || '—';
-    yearCounts[y] = (yearCounts[y] || 0) + 1;
-  });
+  PROJECTS.forEach(p => { const y = p.yearStart || '—'; yearCounts[y] = (yearCounts[y] || 0) + 1; });
   const yearKeys = Object.keys(yearCounts).sort((a,b) => {
     if (a === '—') return 1; if (b === '—') return -1;
     return Number(a) - Number(b);
   });
-
+ 
   yearChart = new Chart(document.getElementById('yearChart'), {
     type: 'bar',
     data: { labels: yearKeys, datasets: [{ data: yearKeys.map(k => yearCounts[k]), backgroundColor: '#18345b', borderRadius: 4, maxBarThickness: 28 }] },
@@ -467,7 +517,7 @@ function buildCharts() {
       scales: { x: { grid: { display: false }, ticks: { color: chartText(), font: { size: 10 } } },
                 y: { beginAtZero: true, grid: { color: chartBorder() }, ticks: { color: chartText(), stepSize: 1, font: { size: 10 } } } } }
   });
-
+ 
   const cats = countBy(PROJECTS, 'category');
   const catLabels = Object.keys(cats);
   const palette = ['#7a4a23','#2d4555','#2f6fc6','#a86a30','#d8a93a','#c47a36','#8a5520','#3f6b8b','#5e3818'];
@@ -476,7 +526,7 @@ function buildCharts() {
     data: { labels: catLabels, datasets: [{ data: catLabels.map(k => cats[k]), backgroundColor: palette, borderWidth: 2, borderColor: getComputedStyle(document.body).getPropertyValue('--card').trim() || '#fff' }] },
     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: chartText(), font: { size: 11 }, padding: 10, boxWidth: 12 } } } }
   });
-
+ 
   const occ = countBy(PROJECTS, 'occupancy');
   const occLabels = Object.keys(occ);
   occupancyChart = new Chart(document.getElementById('occupancyChart'), {
@@ -485,18 +535,15 @@ function buildCharts() {
     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: chartText(), font: { size: 11 }, padding: 10, boxWidth: 12 } } } }
   });
 }
-
+ 
 function rebuildCharts() {
   [yearChart, categoryChart, occupancyChart].forEach(c => c && c.destroy());
   buildCharts();
 }
-
-function uniqueVals(key) {
-  return [...new Set(PROJECTS.map(p => p[key]).filter(Boolean))].sort();
-}
+ 
+function uniqueVals(key) { return [...new Set(ALL_PROJECTS.map(p => p[key]).filter(Boolean))].sort(); }
 function fillSelect(id, vals) {
-  document.getElementById(id).innerHTML =
-    '<option value="">All</option>' + vals.map(v => '<option value="' + v + '">' + v + '</option>').join('');
+  document.getElementById(id).innerHTML = '<option value="">All</option>' + vals.map(v => '<option value="' + v + '">' + v + '</option>').join('');
 }
 function populateFilters() {
   fillSelect('f-occupancy', uniqueVals('occupancy'));
@@ -505,13 +552,13 @@ function populateFilters() {
   fillSelect('f-foundation', uniqueVals('foundation'));
   fillSelect('f-approach', uniqueVals('approach'));
 }
-
+ 
 document.getElementById('searchBtn').addEventListener('click', runSearch);
 document.getElementById('resetBtn').addEventListener('click', () => {
   ['f-occupancy','f-category','f-designer','f-foundation','f-approach'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('searchResults').style.display = 'none';
 });
-
+ 
 function runSearch() {
   const f = {
     occupancy: document.getElementById('f-occupancy').value,
@@ -520,7 +567,7 @@ function runSearch() {
     foundation:document.getElementById('f-foundation').value,
     approach:  document.getElementById('f-approach').value
   };
-  const matches = PROJECTS.filter(p =>
+  const matches = ALL_PROJECTS.filter(p =>
     (!f.occupancy  || p.occupancy === f.occupancy) &&
     (!f.category   || p.category === f.category) &&
     (!f.designer   || p.designer === f.designer) &&
@@ -534,7 +581,7 @@ function runSearch() {
              '<div>Found <strong style="color:var(--text)">' + matches.length + '</strong> project' + (matches.length===1?'':'s') + '.</div>';
   if (matches.length > 0) {
     html += '<div class="result-list">' + matches.map(p => {
-      const realIdx = PROJECTS.indexOf(p);
+      const realIdx = ALL_PROJECTS.indexOf(p);
       const meta = [p.location, p.year].filter(Boolean).join(' • ');
       return '<div class="row" style="padding:12px 16px;">' +
         '<div class="ico" style="width:36px;height:36px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9l-5 5"/><path d="m4 20 4-4"/><path d="m18 4 2 2"/><path d="m14 6 6 6-3 3-6-6 3-3"/></svg></div>' +
@@ -548,7 +595,79 @@ function runSearch() {
     btn.addEventListener('click', () => openModal(parseInt(btn.dataset.idx)));
   });
 }
-
+ 
+const CATEGORY_LABELS = {
+  owner: 'Owner',
+  occupancy: 'Type of Occupancy',
+  category: 'Building Category',
+  designer: 'Designer',
+  foundation: 'Type of Foundation',
+  approach: 'Construction Approach'
+};
+ 
+document.querySelectorAll('.nav-child[data-cat]').forEach(el => {
+  el.addEventListener('click', () => showSubValues(el.dataset.cat));
+});
+ 
+function showSubValues(category) {
+  const container = document.getElementById('subValues');
+  const values = uniqueVals(category);
+  const counts = {};
+  ALL_PROJECTS.forEach(p => { if (p[category]) counts[p[category]] = (counts[p[category]] || 0) + 1; });
+ 
+  container.style.display = 'flex';
+  container.innerHTML =
+    '<div class="nav-child" style="font-weight:600; color:var(--text-soft); font-size:10px; letter-spacing:0.08em; text-transform:uppercase; cursor:default; padding-top:8px;">' +
+      CATEGORY_LABELS[category] +
+    '</div>' +
+    values.map(v => {
+      const isActive = sidebarFilter && sidebarFilter.category === category && sidebarFilter.value === v;
+      const truncated = v.length > 22 ? v.substring(0, 22) + '…' : v;
+      const safeV = v.replace(/"/g, '&quot;');
+      return '<div class="nav-child ' + (isActive ? 'active' : '') + '" data-filter-cat="' + category + '" data-filter-val="' + safeV + '" title="' + safeV + '">' +
+        '<span class="nav-child-name">' + truncated + '</span>' +
+        '<span class="count">' + (counts[v] || 0) + '</span>' +
+      '</div>';
+    }).join('');
+ 
+  container.querySelectorAll('[data-filter-cat]').forEach(el => {
+    el.addEventListener('click', () => applySidebarFilter(el.dataset.filterCat, el.dataset.filterVal));
+  });
+}
+ 
+function applySidebarFilter(category, value) {
+  sidebarFilter = { category, value };
+  PROJECTS = ALL_PROJECTS.filter(p => p[category] === value);
+ 
+  const banner = document.getElementById('filterBanner');
+  const chip = document.getElementById('filterChip');
+  banner.classList.add('show');
+  chip.textContent = CATEGORY_LABELS[category] + ': ' + value;
+ 
+  document.querySelectorAll('.sb-nav .nav-item').forEach(el => el.classList.remove('active'));
+ 
+  activitiesExpanded = false;
+  updateTopStats();
+  renderActivities();
+  rebuildCharts();
+  showSubValues(category);
+ 
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+ 
+function clearSidebarFilter() {
+  sidebarFilter = null;
+  PROJECTS = ALL_PROJECTS.slice();
+  document.getElementById('filterBanner').classList.remove('show');
+  document.getElementById('subValues').style.display = 'none';
+  document.querySelectorAll('.nav-child').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.sb-nav > .nav-item').forEach((el, i) => { if (i === 0) el.classList.add('active'); });
+  activitiesExpanded = false;
+  render();
+}
+ 
+document.getElementById('clearSidebarFilter').addEventListener('click', clearSidebarFilter);
+ 
 loadData();
 </script>
 </body>
