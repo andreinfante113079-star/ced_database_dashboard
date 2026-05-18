@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-18T06:34:19.859185+00:00",
+  "updatedAt": "2026-05-18T14:50:03.680760+00:00",
   "count": 57,
   "projects": [
     {
@@ -11,7 +11,7 @@
       "occupancy": "COMMERCIAL",
       "category": "OFFICE BUILDING",
       "designer": "SY^2 + ASSOCIATES, INC.",
-      "tfa": 32910.43,
+      "tfa": 40000,
       "footprint": 1083.54,
       "units": null,
       "height": 118.5,
@@ -21,9 +21,9 @@
       "concrete": 26574.5,
       "rebar": 5483865.73,
       "forms": 106006.74,
-      "cumTfa": 0.8075,
-      "kgTfa": 166.63,
-      "sqmTfa": 3.2211
+      "cumTfa": 0.6644,
+      "kgTfa": 137.0966,
+      "sqmTfa": 2.6502
     },
     {
       "name": "SHANG BAUHINIA RESIDENCES SALES GALLERY",
