@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-06-16T23:17:37.598005+00:00",
-  "count": 64,
+  "updatedAt": "2026-06-17T23:16:41.807335+00:00",
+  "count": 65,
   "projects": [
     {
       "name": "BDO CEBU FUENTE TOWER",
@@ -967,6 +967,29 @@
       "cumTfa": 0.3773,
       "kgTfa": 70.0333,
       "sqmTfa": 2.0501
+    },
+    {
+      "name": "VELEZ MEDICAL ARTS BUILDING",
+      "owner": null,
+      "location": null,
+      "year": "2016",
+      "yearStart": 2016,
+      "occupancy": "COMMERCIAL",
+      "category": "HOSPITAL",
+      "designer": null,
+      "tfa": 23808,
+      "footprint": null,
+      "units": null,
+      "height": null,
+      "levels": null,
+      "foundation": null,
+      "approach": null,
+      "concrete": null,
+      "rebar": null,
+      "forms": null,
+      "cumTfa": null,
+      "kgTfa": null,
+      "sqmTfa": null
     },
     {
       "name": "PHI Mid Rise Buildings",
