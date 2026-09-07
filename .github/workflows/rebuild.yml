@@ -45,6 +45,10 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Rebuild dashboard data ($(date -u +%Y-%m-%d_%H:%M)) — ${{ inputs.reason }}"
-            git push
+            git commit -m "Rebuild dashboard data ($(date -u +%Y-%m-%d_%H:%M)) -- ${{ inputs.reason }}"
+            for i in 1 2 3 4 5; do
+              git pull --rebase origin main && git push && break
+              echo "Push attempt $i failed, retrying in 5s..."
+              sleep 5
+            done
           fi
