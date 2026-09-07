@@ -41,14 +41,13 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add public/projects.json
-          if git diff --staged --quiet; then
+          if [ -z "$(git status --porcelain public/projects.json)" ]; then
             echo "No changes to commit"
-          else
-            git commit -m "Rebuild dashboard data ($(date -u +%Y-%m-%d_%H:%M)) -- ${{ inputs.reason }}"
-            for i in 1 2 3 4 5; do
-              git pull --rebase origin main && git push && break
-              echo "Push attempt $i failed, retrying in 5s..."
-              sleep 5
-            done
+            exit 0
           fi
+          git fetch origin main
+          git checkout origin/main -- .
+          python scripts/build.py
+          git add public/projects.json
+          git commit -m "Rebuild dashboard data ($(date -u +%Y-%m-%d_%H:%M))"
+          git push
